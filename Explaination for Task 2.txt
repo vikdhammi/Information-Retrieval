@@ -1,0 +1,14 @@
+For FocusedCrawler, the program takes 2 arguments - seed and the keyword. All the conditions for a valid url still remain the same as in the previous crawler.
+However additional conditions were added to narrow down the search results.The method findRelevantUrls(String url) performs this check.
+The checks are performed on the text within url and anchor text.
+
+for e.g https://en.wikipedia.org/wiki/Valdivian_temperate_rain_forests
+from this url, the WikiPrefix is trimmed which gives us: Valdivian_temperate_rain_forests
+The remaining url is desegmented wherever  "_" or "-" appears and adds them to a List of strings
+String[] list = { Valdivian temperate rain forests }
+If the remaining url does not contain "_" or "-", it is stored as is in the list.
+
+Next, anchor text is extracted from the url using JSoup library. The text is seggregated using the same condition as above and store in the list.
+The two lists are merged into one list and iterated for each element inside it. Every word is converted to lower case and is checked whether the word
+starts with the lower cased keyword. If it matches, the url is added to the HashSet. The url is then added to the queue. The head element is poped out and 
+all the urls of that page are crawled until either of the check is enforced. The final list is then added to a HashSet that has only unique entries.
